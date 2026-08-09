@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football Ledger Software</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap');
+
+    :root {
+      --primary-color: #1e293b;
+      --secondary-color: #2563eb;
+      --accent-color: #3b82f6;
+      --success-color: #10b981;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Pyidaungsu', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      padding: 15px;
+      color: #0f172a;
+    }
+
+    .app-container {
+      max-width: 980px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Navigation Tabs */
+    .tabs {
+      display: flex;
+      background-color: #0f172a;
+      border-bottom: 2px solid var(--border-color);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 14px 10px;
+      border: none;
+      background: none;
+      color: #94a3b8;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #f8fafc;
+    }
+
+    .tab-btn.active {
+      color: white;
+      background-color: var(--secondary-color);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 24px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Forms & Inputs */
+    .form-card {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 15px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      background-color: white;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary { background-color: var(--secondary-color); color: white; }
+    .btn-primary:hover { background-color: #1d4ed8; }
+
+    .btn-warning { background-color: var(--warning-color); color: white; }
+    .btn-warning:hover { background-color: #d97706; }
+
+    .btn-danger { background-color: var(--danger-color); color: white; }
+    .btn-danger:hover { background-color: #dc2626; }
+
+    .btn-secondary { background-color: #64748b; color: white; }
+    .btn-secondary:hover { background-color: #475569; }
+
+    .btn-restart {
+      background-color: #dc2626;
+      color: white;
+      padding: 8px 14px;
+      font-size: 13px;
+      border-radius: 6px;
+    }
+    .btn-restart:hover { background-color: #b91c1c; }
+
+    /* Tables */
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f8fafc;
+      color: #475569;
+      font-weight: bold;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background-color: #f1f5f9;
+    }
+
+    .amt-positive { color: var(--success-color); font-weight: bold; }
+    .amt-negative { color: var(--danger-color); font-weight: bold; }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    /* Twin Copy Boxes Layout */
+    .copy-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .twin-box {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .twin-box h3 {
+      font-size: 16px;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--secondary-color);
+      text-align: center;
+    }
+
+    .copy-textarea {
+      width: 100%;
+      height: 280px;
+      padding: 12px;
+      font-family: 'Pyidaungsu', monospace;
+      font-size: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      resize: none;
+      background-color: #ffffff;
+      margin-bottom: 12px;
+      line-height: 1.6;
+      color: #1e293b;
+      outline: none;
+    }
+
+    .copy-textarea:focus {
+      border-color: var(--secondary-color);
+    }
+
+    .filter-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Modals */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 440px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: var(--primary-color);
+    }
+
+    .modal-body-text {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .copy-container { flex-direction: column; }
+      .form-row { flex-direction: column; gap: 0; }
+      header { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <header>
+    <h2>Football Ledger Software</h2>
+    <button class="btn btn-restart" onclick="playBtnSound(); openRestartModal()">Restart All Data</button>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(event, 'matchTab')">Match</button>
+    <button class="tab-btn" onclick="switchTab(event, 'nameTab')">Name</button>
+    <button class="tab-btn" onclick="switchTab(event, 'entryTab')">Entry</button>
+    <button class="tab-btn" onclick="switchTab(event, 'ledgerTab')">Ledger</button>
+    <button class="tab-btn" onclick="switchTab(event, 'copyTab')">Copy</button>
+  </div>
+
+  <!-- 1. MATCH TAB -->
+  <div id="matchTab" class="tab-content active">
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label>အိမ်ကွင်းအသင်း</label>
+          <input type="text" id="homeTeamInput" class="form-control" placeholder="ဥပမာ - မန်ယူ">
+        </div>
+        <div class="form-group">
+          <label>အဝေးကွင်းအသင်း</label>
+          <input type="text" id="awayTeamInput" class="form-control" placeholder="ဥပမာ - လီဗာပူး">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="playBtnSound(); addMatch()">Save Match</button>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>အိမ်ကွင်း</th>
+            <th>အဝေးကွင်း</th>
+            <th>ပွဲစဉ်</th>
+            <th>လုပ်ဆောင်ချက်</th>
+          </tr>
+        </thead>
+        <tbody id="matchTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2. NAME TAB -->
+  <div id="nameTab" class="tab-content">
+    <div class="form-card">
+      <div class="form-row">
+        <div class="form-group">
+          <label>အမည်</label>
+          <input type="text" id="personNameInput" class="form-control" placeholder="အမည်ထည့်ပါ">
+        </div>
+        <div class="form-group">
+          <label>အမျိုးအစား</label>
+          <select id="personTypeInput" class="form-control">
+            <option value="ဒိုင်">ဒိုင်</option>
+            <option value="ထိုးသား">ထိုးသား</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="playBtnSound(); addName()">Save Name</button>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>အမည်</th>
+            <th>အမျိုးအစား</th>
+            <th>လုပ်ဆောင်ချက်</th>
+          </tr>
+        </thead>
+        <tbody id="nameTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. ENTRY TAB -->
+  <div id="entryTab" class="tab-content">
+    <div class="form-card">
+      <div class="form-group">
+        <label>အမည် (ဒိုင်/ထိုးသား)</label>
+        <select id="entryNameSelect" class="form-control"></select>
+      </div>
+
+      <div class="form-group">
+        <label>ပွဲစဉ်</label>
+        <select id="entryMatchSelect" class="form-control" onchange="updateBetTypeDropdown()"></select>
+      </div>
+
+      <div class="form-group">
+        <label>Bet Type</label>
+        <select id="entryBetTypeSelect" class="form-control"></select>
+      </div>
+
+      <div class="form-group">
+        <label>Bet Amount</label>
+        <input type="number" id="entryAmountInput" class="form-control" placeholder="ပမာဏထည့်ပါ">
+      </div>
+
+      <button class="btn btn-primary" onclick="playBtnSound(); addEntry()">Save Entry</button>
+    </div>
+
+    <div class="filter-wrapper">
+      <label style="font-weight: bold; white-space: nowrap;">Name Filter:</label>
+      <select id="entryFilterSelect" class="form-control" onchange="renderEntries()">
+        <option value="ALL">အားလုံးပြပါ</option>
+      </select>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>နံပါတ်စဉ်</th>
+            <th>အမည်</th>
+            <th>ပွဲစဉ်</th>
+            <th>Bet Type</th>
+            <th>Amount</th>
+            <th>လုပ်ဆောင်ချက်</th>
+          </tr>
+        </thead>
+        <tbody id="entryTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 4. LEDGER TAB -->
+  <div id="ledgerTab" class="tab-content">
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>ပွဲစဉ်</th>
+            <th>Home Body</th>
+            <th>Away Body</th>
+            <th>Goal Over</th>
+            <th>Goal Under</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. COPY TAB (TWIN BOXES) -->
+  <div id="copyTab" class="tab-content">
+    <div class="copy-container">
+      <!-- Box 1: Ledger Copy -->
+      <div class="twin-box">
+        <h3>Ledger Copy Box</h3>
+        <textarea id="ledgerCopyTextarea" class="copy-textarea" readonly></textarea>
+        <button class="btn btn-primary" onclick="playBtnSound(); copyToClipboard('ledgerCopyTextarea')">Copy Ledger Text</button>
+      </div>
+
+      <!-- Box 2: Over Copy (ကျွံ Box) -->
+      <div class="twin-box">
+        <h3>ကျွံ Box (Over Box)</h3>
+        <textarea id="overCopyTextarea" class="copy-textarea" readonly></textarea>
+        <button class="btn btn-primary" onclick="playBtnSound(); copyToClipboard('overCopyTextarea')">Copy ကျွံ Text</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Dialogs -->
+<div id="modalOverlay" class="modal">
+  <div class="modal-content" id="modalBody"></div>
+</div>
+
+<script>
+  /* Sound Effects Helpers */
+  const tabAudio = new Audio('tabsound.mp3');
+  const btnAudio = new Audio('button.mp3');
+
+  function playTabSound() {
+    tabAudio.currentTime = 0;
+    tabAudio.play().catch(() => {});
+  }
+
+  function playBtnSound() {
+    btnAudio.currentTime = 0;
+    btnAudio.play().catch(() => {});
+  }
+
+  let matches = JSON.parse(localStorage.getItem('fb_matches')) || [];
+  let names = JSON.parse(localStorage.getItem('fb_names')) || [];
+  let entries = JSON.parse(localStorage.getItem('fb_entries')) || [];
+
+  function saveData() {
+    localStorage.setItem('fb_matches', JSON.stringify(matches));
+    localStorage.setItem('fb_names', JSON.stringify(names));
+    localStorage.setItem('fb_entries', JSON.stringify(entries));
+  }
+
+  function switchTab(evt, tabId) {
+    playTabSound();
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+    evt.target.classList.add('active');
+
+    if (tabId === 'entryTab') renderEntryDropdowns();
+    if (tabId === 'ledgerTab') renderLedger();
+    if (tabId === 'copyTab') renderCopyBoxes();
+  }
+
+  /* ==================== RESTART SYSTEM ==================== */
+  function openRestartModal() {
+    showModal(`
+      <div class="modal-header">Data များကို Restart လုပ်ရန်</div>
+      <div class="modal-body-text">
+        Name Tab တွင် ထည့်ထားသော အမည်များမှလွဲ၍ ပွဲစဉ်များ (Matches) နှင့် စာရင်းများ (Entries) အားလုံးကို ဖျက်ပစ်ပါမည်။ သေချာပါသလား?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">No (မဖျက်ပါ)</button>
+        <button class="btn btn-danger" onclick="playBtnSound(); confirmRestartData()">Yes (ဖျက်မည်)</button>
+      </div>
+    `);
+  }
+
+  function confirmRestartData() {
+    matches = [];
+    entries = [];
+    saveData();
+
+    renderMatches();
+    renderEntries();
+    renderLedger();
+    renderCopyBoxes();
+
+    closeModal();
+    alert('Name Tab မှအပ ကျန် Data များကို အောင်မြင်စွာ Restart လုပ်ပြီးပါပြီ။');
+  }
+
+  /* ==================== 1. MATCH TAB ==================== */
+  function addMatch() {
+    const home = document.getElementById('homeTeamInput').value.trim();
+    const away = document.getElementById('awayTeamInput').value.trim();
+
+    if (!home || !away) {
+      alert('အိမ်ကွင်းနှင့် အဝေးကွင်း အသင်းအမည် ဖြည့်စွက်ပါ');
+      return;
+    }
+
+    matches.push({ id: Date.now(), home, away });
+    saveData();
+    renderMatches();
+    document.getElementById('homeTeamInput').value = '';
+    document.getElementById('awayTeamInput').value = '';
+  }
+
+  function renderMatches() {
+    const tbody = document.getElementById('matchTableBody');
+    tbody.innerHTML = matches.map((m, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${m.home}</td>
+        <td>${m.away}</td>
+        <td>${m.home} Vs ${m.away}</td>
+        <td class="action-btns">
+          <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditMatchModal(${m.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteMatchModal(${m.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function openEditMatchModal(id) {
+    const m = matches.find(item => item.id === id);
+    if (!m) return;
+
+    showModal(`
+      <div class="modal-header">Match ပြင်ဆင်ရန်</div>
+      <div class="form-group">
+        <label>အိမ်ကွင်းအသင်း</label>
+        <input type="text" id="editHome" class="form-control" value="${m.home}">
+      </div>
+      <div class="form-group">
+        <label>အဝေးကွင်းအသင်း</label>
+        <input type="text" id="editAway" class="form-control" value="${m.away}">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="playBtnSound(); saveEditMatch(${id})">Save</button>
+      </div>
+    `);
+  }
+
+  function saveEditMatch(id) {
+    const home = document.getElementById('editHome').value.trim();
+    const away = document.getElementById('editAway').value.trim();
+    if (!home || !away) return;
+
+    const idx = matches.findIndex(m => m.id === id);
+    if (idx !== -1) {
+      matches[idx].home = home;
+      matches[idx].away = away;
+      saveData();
+      renderMatches();
+      closeModal();
+    }
+  }
+
+  function openDeleteMatchModal(id) {
+    showModal(`
+      <div class="modal-header">ပွဲစဉ် ဖျက်ရန် သေချာပါသလား?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
+        <button class="btn btn-danger" onclick="playBtnSound(); confirmDeleteMatch(${id})">Delete</button>
+      </div>
+    `);
+  }
+
+  function confirmDeleteMatch(id) {
+    matches = matches.filter(m => m.id !== id);
+    entries = entries.filter(e => e.matchId !== id);
+    saveData();
+    renderMatches();
+    closeModal();
+  }
+
+  /* ==================== 2. NAME TAB ==================== */
+  function addName() {
+    const name = document.getElementById('personNameInput').value.trim();
+    const type = document.getElementById('personTypeInput').value;
+
+    if (!name) {
+      alert('အမည်ဖြည့်စွက်ပါ');
+      return;
+    }
+
+    names.push({ id: Date.now(), name, type });
+    saveData();
+    renderNames();
+    document.getElementById('personNameInput').value = '';
+  }
+
+  function renderNames() {
+    const tbody = document.getElementById('nameTableBody');
+    tbody.innerHTML = names.map((n, index) => `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${n.name}</td>
+        <td>${n.type}</td>
+        <td class="action-btns">
+          <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditNameModal(${n.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteNameModal(${n.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function openEditNameModal(id) {
+    const n = names.find(item => item.id === id);
+    if (!n) return;
+
+    showModal(`
+      <div class="modal-header">အမည် ပြင်ဆင်ရန်</div>
+      <div class="form-group">
+        <label>အမည်</label>
+        <input type="text" id="editNameVal" class="form-control" value="${n.name}">
+      </div>
+      <div class="form-group">
+        <label>အမျိုးအစား</label>
+        <select id="editTypeVal" class="form-control">
+          <option value="ဒိုင်" ${n.type === 'ဒိုင်' ? 'selected' : ''}>ဒိုင်</option>
+          <option value="ထိုးသား" ${n.type === 'ထိုးသား' ? 'selected' : ''}>ထိုးသား</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="playBtnSound(); saveEditName(${id})">Save</button>
+      </div>
+    `);
+  }
+
+  function saveEditName(id) {
+    const name = document.getElementById('editNameVal').value.trim();
+    const type = document.getElementById('editTypeVal').value;
+    if (!name) return;
+
+    const idx = names.findIndex(n => n.id === id);
+    if (idx !== -1) {
+      names[idx].name = name;
+      names[idx].type = type;
+      saveData();
+      renderNames();
+      closeModal();
+    }
+  }
+
+  function openDeleteNameModal(id) {
+    showModal(`
+      <div class="modal-header">အမည် ဖျက်ရန် သေချာပါသလား?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
+        <button class="btn btn-danger" onclick="playBtnSound(); confirmDeleteName(${id})">Delete</button>
+      </div>
+    `);
+  }
+
+  function confirmDeleteName(id) {
+    names = names.filter(n => n.id !== id);
+    entries = entries.filter(e => e.personId !== id);
+    saveData();
+    renderNames();
+    closeModal();
+  }
+
+  /* ==================== 3. ENTRY TAB ==================== */
+  function renderEntryDropdowns() {
+    const nameSelect = document.getElementById('entryNameSelect');
+    nameSelect.innerHTML = names.length 
+      ? names.map(n => `<option value="${n.id}">${n.name} (${n.type})</option>`).join('')
+      : '<option value="">အမည်မရှိသေးပါ</option>';
+
+    const matchSelect = document.getElementById('entryMatchSelect');
+    matchSelect.innerHTML = matches.length
+      ? matches.map(m => `<option value="${m.id}">${m.home} Vs ${m.away}</option>`).join('')
+      : '<option value="">ပွဲစဉ်မရှိသေးပါ</option>';
+
+    const filterSelect = document.getElementById('entryFilterSelect');
+    const currentFilter = filterSelect.value;
+    filterSelect.innerHTML = '<option value="ALL">အားလုံးပြပါ</option>' + 
+      names.map(n => `<option value="${n.id}">${n.name}</option>`).join('');
+    filterSelect.value = currentFilter;
+
+    updateBetTypeDropdown();
+    renderEntries();
+  }
+
+  function updateBetTypeDropdown() {
+    const matchId = parseInt(document.getElementById('entryMatchSelect').value);
+    const betSelect = document.getElementById('entryBetTypeSelect');
+
+    const m = matches.find(item => item.id === matchId);
+    if (!m) {
+      betSelect.innerHTML = '<option value="">-</option>';
+      return;
+    }
+
+    betSelect.innerHTML = `
+      <option value="Home_Body">${m.home} ဘော်ဒီ</option>
+      <option value="Away_Body">${m.away} ဘော်ဒီ</option>
+      <option value="Home_Over">${m.home} ဂိုးပေါ်</option>
+      <option value="Away_Over">${m.away} ဂိုးပေါ်</option>
+      <option value="Home_Under">${m.home} ဂိုးအောက်</option>
+      <option value="Away_Under">${m.away} ဂိုးအောက်</option>
+    `;
+  }
+
+  function addEntry() {
+    const personId = parseInt(document.getElementById('entryNameSelect').value);
+    const matchId = parseInt(document.getElementById('entryMatchSelect').value);
+    const betTypeKey = document.getElementById('entryBetTypeSelect').value;
+    const rawAmt = parseFloat(document.getElementById('entryAmountInput').value);
+
+    if (!personId || !matchId || !betTypeKey || isNaN(rawAmt) || rawAmt <= 0) {
+      alert('အချက်အလက်များကို မှန်ကန်စွာ ဖြည့်ပါ');
+      return;
+    }
+
+    const person = names.find(n => n.id === personId);
+    const signedAmount = (person.type === 'ဒိုင်') ? -Math.abs(rawAmt) : Math.abs(rawAmt);
+
+    entries.push({
+      id: Date.now(),
+      personId,
+      matchId,
+      betTypeKey,
+      amount: signedAmount
+    });
+
+    saveData();
+    renderEntries();
+    document.getElementById('entryAmountInput').value = '';
+  }
+
+  function renderEntries() {
+    const tbody = document.getElementById('entryTableBody');
+    const filterValue = document.getElementById('entryFilterSelect').value;
+
+    let filteredEntries = entries;
+    if (filterValue !== 'ALL') {
+      filteredEntries = entries.filter(e => e.personId === parseInt(filterValue));
+    }
+
+    tbody.innerHTML = filteredEntries.map((e, index) => {
+      const person = names.find(n => n.id === e.personId) || { name: 'Unknown', type: '' };
+      const match = matches.find(m => m.id === e.matchId) || { home: 'Unknown', away: 'Unknown' };
+
+      let betLabel = getBetLabel(e.betTypeKey, match);
+      let amtClass = e.amount >= 0 ? 'amt-positive' : 'amt-negative';
+      let amtDisplay = e.amount > 0 ? `+${e.amount.toLocaleString()}` : `${e.amount.toLocaleString()}`;
+
+      return `
+        <tr>
+          <td><strong>${index + 1}</strong></td>
+          <td>${person.name} (${person.type})</td>
+          <td>${match.home} Vs ${match.away}</td>
+          <td>${betLabel}</td>
+          <td class="${amtClass}">${amtDisplay}</td>
+          <td class="action-btns">
+            <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditEntryModal(${e.id})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteEntryModal(${e.id})">Delete</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function getBetLabel(betKey, match) {
+    switch (betKey) {
+      case 'Home_Body': return `${match.home} ဘော်ဒီ`;
+      case 'Away_Body': return `${match.away} ဘော်ဒီ`;
+      case 'Home_Over': return `${match.home} ဂိုးပေါ်`;
+      case 'Away_Over': return `${match.away} ဂိုးပေါ်`;
+      case 'Home_Under': return `${match.home} ဂိုးအောက်`;
+      case 'Away_Under': return `${match.away} ဂိုးအောက်`;
+      default: return betKey;
+    }
+  }
+
+  function openEditEntryModal(id) {
+    const e = entries.find(item => item.id === id);
+    if (!e) return;
+
+    showModal(`
+      <div class="modal-header">Entry ပြင်ဆင်ရန်</div>
+      <div class="form-group">
+        <label>Bet Amount</label>
+        <input type="number" id="editEntryAmt" class="form-control" value="${Math.abs(e.amount)}">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="playBtnSound(); saveEditEntry(${id})">Save</button>
+      </div>
+    `);
+  }
+
+  function saveEditEntry(id) {
+    const rawAmt = parseFloat(document.getElementById('editEntryAmt').value);
+    if (isNaN(rawAmt) || rawAmt <= 0) return;
+
+    const idx = entries.findIndex(e => e.id === id);
+    if (idx !== -1) {
+      const person = names.find(n => n.id === entries[idx].personId);
+      const signedAmount = (person && person.type === 'ဒိုင်') ? -Math.abs(rawAmt) : Math.abs(rawAmt);
+      entries[idx].amount = signedAmount;
+      saveData();
+      renderEntries();
+      closeModal();
+    }
+  }
+
+  function openDeleteEntryModal(id) {
+    showModal(`
+      <div class="modal-header">Entry ဖျက်ရန် သေချာပါသလား?</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
+        <button class="btn btn-danger" onclick="playBtnSound(); confirmDeleteEntry(${id})">Delete</button>
+      </div>
+    `);
+  }
+
+  function confirmDeleteEntry(id) {
+    entries = entries.filter(e => e.id !== id);
+    saveData();
+    renderEntries();
+    closeModal();
+  }
+
+  /* ==================== 4. LEDGER TAB ==================== */
+  function calculateMatchTotals(mId) {
+    let homeBodySum = 0, awayBodySum = 0, goalOverSum = 0, goalUnderSum = 0;
+
+    entries.filter(e => e.matchId === mId).forEach(e => {
+      if (e.betTypeKey === 'Home_Body') homeBodySum += e.amount;
+      if (e.betTypeKey === 'Away_Body') awayBodySum += e.amount;
+      if (e.betTypeKey === 'Home_Over' || e.betTypeKey === 'Away_Over') goalOverSum += e.amount;
+      if (e.betTypeKey === 'Home_Under' || e.betTypeKey === 'Away_Under') goalUnderSum += e.amount;
+    });
+
+    return { homeBodySum, awayBodySum, goalOverSum, goalUnderSum };
+  }
+
+  function renderLedger() {
+    const tbody = document.getElementById('ledgerTableBody');
+    tbody.innerHTML = matches.map(m => {
+      const totals = calculateMatchTotals(m.id);
+      return `
+        <tr>
+          <td><strong>${m.home} Vs ${m.away}</strong></td>
+          <td class="${totals.homeBodySum >= 0 ? 'amt-positive' : 'amt-negative'}">${totals.homeBodySum.toLocaleString()}</td>
+          <td class="${totals.awayBodySum >= 0 ? 'amt-positive' : 'amt-negative'}">${totals.awayBodySum.toLocaleString()}</td>
+          <td class="${totals.goalOverSum >= 0 ? 'amt-positive' : 'amt-negative'}">${totals.goalOverSum.toLocaleString()}</td>
+          <td class="${totals.goalUnderSum >= 0 ? 'amt-positive' : 'amt-negative'}">${totals.goalUnderSum.toLocaleString()}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  /* ==================== 5. COPY TAB ==================== */
+  function renderCopyBoxes() {
+    let ledgerText = '';
+    let overText = '';
+
+    matches.forEach((m, idx) => {
+      const { homeBodySum, awayBodySum, goalOverSum, goalUnderSum } = calculateMatchTotals(m.id);
+
+      ledgerText += `${m.home} ${homeBodySum.toLocaleString()}\n`;
+      ledgerText += `${m.away} ${awayBodySum.toLocaleString()}\n`;
+      ledgerText += `ဂိုးပေါ် ${goalOverSum.toLocaleString()}\n`;
+      ledgerText += `ဂိုးအောက် ${goalUnderSum.toLocaleString()}\n`;
+      if (idx < matches.length - 1) ledgerText += `\n`;
+
+      let overHome = 0, overAway = 0, overGoalOver = 0, overGoalUnder = 0;
+
+      if (homeBodySum > awayBodySum) {
+        overHome = homeBodySum - awayBodySum;
+      } else if (awayBodySum > homeBodySum) {
+        overAway = awayBodySum - homeBodySum;
+      }
+
+      if (goalOverSum > goalUnderSum) {
+        overGoalOver = goalOverSum - goalUnderSum;
+      } else if (goalUnderSum > goalOverSum) {
+        overGoalUnder = goalUnderSum - goalOverSum;
+      }
+
+      overText += `${m.home} ${overHome.toLocaleString()}\n`;
+      overText += `${m.away} ${overAway.toLocaleString()}\n`;
+      overText += `ဂိုးပေါ် ${overGoalOver.toLocaleString()}\n`;
+      overText += `ဂိုးအောက် ${overGoalUnder.toLocaleString()}\n`;
+      if (idx < matches.length - 1) overText += `\n`;
+    });
+
+    document.getElementById('ledgerCopyTextarea').value = ledgerText.trim();
+    document.getElementById('overCopyTextarea').value = overText.trim();
+  }
+
+  function copyToClipboard(elementId) {
+    const textarea = document.getElementById(elementId);
+    if (!textarea.value) return;
+    textarea.select();
+    document.execCommand('copy');
+    alert('ကူးယူပြီးပါပြီ။');
+  }
+
+  /* ==================== MODAL HELPER ==================== */
+  function showModal(htmlContent) {
+    document.getElementById('modalBody').innerHTML = htmlContent;
+    document.getElementById('modalOverlay').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').style.display = 'none';
+  }
+
+  // Initial App Render
+  renderMatches();
+  renderNames();
+</script>
+</body>
+</html>
