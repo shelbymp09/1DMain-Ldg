@@ -4,17 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Football Ledger Software</title>
+  <!-- Font Awesome Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap');
 
     :root {
-      --primary-color: #1e293b;
+      --primary-color: #0f172a;
       --secondary-color: #2563eb;
       --accent-color: #3b82f6;
       --success-color: #10b981;
       --danger-color: #ef4444;
       --warning-color: #f59e0b;
-      --bg-color: #f1f5f9;
+      --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --border-color: #e2e8f0;
     }
@@ -28,55 +30,66 @@
 
     body {
       background-color: var(--bg-color);
-      padding: 15px;
       color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
+    /* Screen အပြည့်ဖြစ်စေရန် ပြင်ဆင်ထားသော Container */
     .app-container {
-      max-width: 980px;
-      margin: 0 auto;
-      background-color: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-      overflow: hidden;
-      border: 1px solid var(--border-color);
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
     }
 
     header {
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
       color: white;
-      padding: 16px 24px;
+      padding: 18px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     header h2 {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Navigation Tabs */
+    /* Navigation Tabs - Full Width & Tablet Optimized */
     .tabs {
       display: flex;
-      background-color: #0f172a;
+      background-color: #1e293b;
       border-bottom: 2px solid var(--border-color);
       overflow-x: auto;
+      padding: 0 10px;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 14px 10px;
+      min-width: 120px;
+      padding: 16px 12px;
       border: none;
       background: none;
       color: #94a3b8;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s ease;
       text-align: center;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .tab-btn:hover {
@@ -87,11 +100,16 @@
     .tab-btn.active {
       color: white;
       background-color: var(--secondary-color);
+      border-bottom: 3px solid #60a5fa;
     }
 
     .tab-content {
       display: none;
       padding: 24px;
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     .tab-content.active {
@@ -100,11 +118,12 @@
 
     /* Forms & Inputs */
     .form-card {
-      background: #f8fafc;
-      padding: 20px;
+      background: var(--card-bg);
+      padding: 24px;
       border-radius: 12px;
       border: 1px solid var(--border-color);
       margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .form-group {
@@ -112,16 +131,18 @@
     }
 
     .form-group label {
-      display: block;
-      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
       font-weight: bold;
       color: #334155;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .form-control {
       width: 100%;
-      padding: 10px 14px;
+      padding: 12px 16px;
       font-size: 15px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
@@ -135,28 +156,26 @@
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
+    /* Tablet Friendly Form Layout */
     .form-row {
-      display: flex;
-      gap: 16px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
 
     /* Buttons */
     .btn {
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .btn:active {
@@ -178,17 +197,19 @@
     .btn-restart {
       background-color: #dc2626;
       color: white;
-      padding: 8px 14px;
-      font-size: 13px;
-      border-radius: 6px;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: 8px;
     }
     .btn-restart:hover { background-color: #b91c1c; }
 
     /* Tables */
     .table-responsive {
       overflow-x: auto;
-      border-radius: 8px;
+      border-radius: 12px;
       border: 1px solid var(--border-color);
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     table {
@@ -198,15 +219,15 @@
     }
 
     th, td {
-      padding: 12px 14px;
+      padding: 14px 18px;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 14px;
+      font-size: 15px;
     }
 
     th {
-      background-color: #f8fafc;
-      color: #475569;
+      background-color: #f1f5f9;
+      color: #334155;
       font-weight: bold;
     }
 
@@ -215,7 +236,7 @@
     }
 
     tr:hover {
-      background-color: #f1f5f9;
+      background-color: #f8fafc;
     }
 
     .amt-positive { color: var(--success-color); font-weight: bold; }
@@ -223,52 +244,55 @@
 
     .action-btns {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
     .btn-sm {
-      padding: 6px 12px;
-      font-size: 12px;
+      padding: 8px 14px;
+      font-size: 13px;
       border-radius: 6px;
     }
 
-    /* Twin Copy Boxes Layout */
+    /* Twin Copy Boxes Layout - Adaptive for Tablet */
     .copy-container {
-      display: flex;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
     }
 
     .twin-box {
-      flex: 1;
-      background: #f8fafc;
+      background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 18px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     .twin-box h3 {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--primary-color);
-      margin-bottom: 12px;
-      padding-bottom: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
       border-bottom: 2px solid var(--secondary-color);
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .copy-textarea {
       width: 100%;
-      height: 280px;
-      padding: 12px;
+      height: 320px;
+      padding: 14px;
       font-family: 'Pyidaungsu', monospace;
-      font-size: 14px;
+      font-size: 15px;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
-      resize: none;
-      background-color: #ffffff;
-      margin-bottom: 12px;
+      resize: vertical;
+      background-color: #f8fafc;
+      margin-bottom: 16px;
       line-height: 1.6;
       color: #1e293b;
       outline: none;
@@ -276,16 +300,17 @@
 
     .copy-textarea:focus {
       border-color: var(--secondary-color);
+      background-color: #ffffff;
     }
 
     .filter-wrapper {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 16px;
-      background: #f8fafc;
-      padding: 12px 16px;
-      border-radius: 8px;
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      padding: 16px 20px;
+      border-radius: 12px;
       border: 1px solid var(--border-color);
     }
 
@@ -300,42 +325,47 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      padding: 20px;
     }
 
     .modal-content {
       background: white;
-      padding: 24px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 440px;
+      padding: 28px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
     .modal-header {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
       color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .modal-body-text {
-      font-size: 14px;
+      font-size: 15px;
       color: #475569;
-      margin-bottom: 16px;
-      line-height: 1.5;
+      margin-bottom: 20px;
+      line-height: 1.6;
     }
 
     .modal-footer {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
+      gap: 12px;
+      margin-top: 24px;
     }
 
+    /* Responsive adjustments */
     @media (max-width: 768px) {
-      .copy-container { flex-direction: column; }
-      .form-row { flex-direction: column; gap: 0; }
-      header { flex-direction: column; gap: 10px; text-align: center; }
+      header { flex-direction: column; gap: 12px; text-align: center; }
+      .tab-content { padding: 16px; }
+      .filter-wrapper { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
@@ -343,17 +373,29 @@
 
 <div class="app-container">
   <header>
-    <h2>Football Ledger Software</h2>
-    <button class="btn btn-restart" onclick="playBtnSound(); openRestartModal()">Restart All Data</button>
+    <h2><i class="fa-solid fa-futbol"></i> Football Ledger Software</h2>
+    <button class="btn btn-restart" onclick="playBtnSound(); openRestartModal()">
+      <i class="fa-solid fa-rotate-left"></i> Restart All Data
+    </button>
   </header>
 
   <!-- Navigation Tabs -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'matchTab')">Match</button>
-    <button class="tab-btn" onclick="switchTab(event, 'nameTab')">Name</button>
-    <button class="tab-btn" onclick="switchTab(event, 'entryTab')">Entry</button>
-    <button class="tab-btn" onclick="switchTab(event, 'ledgerTab')">Ledger</button>
-    <button class="tab-btn" onclick="switchTab(event, 'copyTab')">Copy</button>
+    <button class="tab-btn active" onclick="switchTab(event, 'matchTab')">
+      <i class="fa-solid fa-trophy"></i> Match
+    </button>
+    <button class="tab-btn" onclick="switchTab(event, 'nameTab')">
+      <i class="fa-solid fa-users"></i> Name
+    </button>
+    <button class="tab-btn" onclick="switchTab(event, 'entryTab')">
+      <i class="fa-solid fa-pen-to-square"></i> Entry
+    </button>
+    <button class="tab-btn" onclick="switchTab(event, 'ledgerTab')">
+      <i class="fa-solid fa-book"></i> Ledger
+    </button>
+    <button class="tab-btn" onclick="switchTab(event, 'copyTab')">
+      <i class="fa-solid fa-copy"></i> Copy
+    </button>
   </div>
 
   <!-- 1. MATCH TAB -->
@@ -361,15 +403,17 @@
     <div class="form-card">
       <div class="form-row">
         <div class="form-group">
-          <label>အိမ်ကွင်းအသင်း</label>
+          <label><i class="fa-solid fa-house"></i> အိမ်ကွင်းအသင်း</label>
           <input type="text" id="homeTeamInput" class="form-control" placeholder="ဥပမာ - မန်ယူ">
         </div>
         <div class="form-group">
-          <label>အဝေးကွင်းအသင်း</label>
+          <label><i class="fa-solid fa-plane-departure"></i> အဝေးကွင်းအသင်း</label>
           <input type="text" id="awayTeamInput" class="form-control" placeholder="ဥပမာ - လီဗာပူး">
         </div>
       </div>
-      <button class="btn btn-primary" onclick="playBtnSound(); addMatch()">Save Match</button>
+      <button class="btn btn-primary" onclick="playBtnSound(); addMatch()">
+        <i class="fa-solid fa-plus"></i> Save Match
+      </button>
     </div>
 
     <div class="table-responsive">
@@ -393,18 +437,20 @@
     <div class="form-card">
       <div class="form-row">
         <div class="form-group">
-          <label>အမည်</label>
+          <label><i class="fa-solid fa-user"></i> အမည်</label>
           <input type="text" id="personNameInput" class="form-control" placeholder="အမည်ထည့်ပါ">
         </div>
         <div class="form-group">
-          <label>အမျိုးအစား</label>
+          <label><i class="fa-solid fa-layer-group"></i> အမျိုးအစား</label>
           <select id="personTypeInput" class="form-control">
             <option value="ဒိုင်">ဒိုင်</option>
             <option value="ထိုးသား">ထိုးသား</option>
           </select>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="playBtnSound(); addName()">Save Name</button>
+      <button class="btn btn-primary" onclick="playBtnSound(); addName()">
+        <i class="fa-solid fa-user-plus"></i> Save Name
+      </button>
     </div>
 
     <div class="table-responsive">
@@ -425,31 +471,34 @@
   <!-- 3. ENTRY TAB -->
   <div id="entryTab" class="tab-content">
     <div class="form-card">
-      <div class="form-group">
-        <label>အမည် (ဒိုင်/ထိုးသား)</label>
-        <select id="entryNameSelect" class="form-control"></select>
-      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa-solid fa-user-tag"></i> အမည် (ဒိုင်/ထိုးသား)</label>
+          <select id="entryNameSelect" class="form-control"></select>
+        </div>
 
-      <div class="form-group">
-        <label>ပွဲစဉ်</label>
-        <select id="entryMatchSelect" class="form-control" onchange="updateBetTypeDropdown()"></select>
-      </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-gamepad"></i> ပွဲစဉ်</label>
+          <select id="entryMatchSelect" class="form-control" onchange="updateBetTypeDropdown()"></select>
+        </div>
 
-      <div class="form-group">
-        <label>Bet Type</label>
-        <select id="entryBetTypeSelect" class="form-control"></select>
-      </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-list-check"></i> Bet Type</label>
+          <select id="entryBetTypeSelect" class="form-control"></select>
+        </div>
 
-      <div class="form-group">
-        <label>Bet Amount</label>
-        <input type="number" id="entryAmountInput" class="form-control" placeholder="ပမာဏထည့်ပါ">
+        <div class="form-group">
+          <label><i class="fa-solid fa-money-bill-wave"></i> Bet Amount</label>
+          <input type="number" id="entryAmountInput" class="form-control" placeholder="ပမာဏထည့်ပါ">
+        </div>
       </div>
-
-      <button class="btn btn-primary" onclick="playBtnSound(); addEntry()">Save Entry</button>
+      <button class="btn btn-primary" style="margin-top: 10px;" onclick="playBtnSound(); addEntry()">
+        <i class="fa-solid fa-floppy-disk"></i> Save Entry
+      </button>
     </div>
 
     <div class="filter-wrapper">
-      <label style="font-weight: bold; white-space: nowrap;">Name Filter:</label>
+      <label style="font-weight: bold; white-space: nowrap;"><i class="fa-solid fa-filter"></i> Name Filter:</label>
       <select id="entryFilterSelect" class="form-control" onchange="renderEntries()">
         <option value="ALL">အားလုံးပြပါ</option>
       </select>
@@ -495,16 +544,20 @@
     <div class="copy-container">
       <!-- Box 1: Ledger Copy -->
       <div class="twin-box">
-        <h3>Ledger Copy Box</h3>
+        <h3><i class="fa-solid fa-file-lines"></i> Ledger Copy Box</h3>
         <textarea id="ledgerCopyTextarea" class="copy-textarea" readonly></textarea>
-        <button class="btn btn-primary" onclick="playBtnSound(); copyToClipboard('ledgerCopyTextarea')">Copy Ledger Text</button>
+        <button class="btn btn-primary" onclick="playBtnSound(); copyToClipboard('ledgerCopyTextarea')">
+          <i class="fa-regular fa-copy"></i> Copy Ledger Text
+        </button>
       </div>
 
       <!-- Box 2: Over Copy (ကျွံ Box) -->
       <div class="twin-box">
-        <h3>ကျွံ Box (Over Box)</h3>
+        <h3><i class="fa-solid fa-scale-unbalanced-flip"></i> ကျွံ Box (Over Box)</h3>
         <textarea id="overCopyTextarea" class="copy-textarea" readonly></textarea>
-        <button class="btn btn-primary" onclick="playBtnSound(); copyToClipboard('overCopyTextarea')">Copy ကျွံ Text</button>
+        <button class="btn btn-primary" onclick="playBtnSound(); copyToClipboard('overCopyTextarea')">
+          <i class="fa-regular fa-copy"></i> Copy ကျွံ Text
+        </button>
       </div>
     </div>
   </div>
@@ -546,7 +599,7 @@
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
     document.getElementById(tabId).classList.add('active');
-    evt.target.classList.add('active');
+    evt.currentTarget.classList.add('active');
 
     if (tabId === 'entryTab') renderEntryDropdowns();
     if (tabId === 'ledgerTab') renderLedger();
@@ -556,13 +609,13 @@
   /* ==================== RESTART SYSTEM ==================== */
   function openRestartModal() {
     showModal(`
-      <div class="modal-header">Data များကို Restart လုပ်ရန်</div>
+      <div class="modal-header"><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> Data များကို Restart လုပ်ရန်</div>
       <div class="modal-body-text">
         Name Tab တွင် ထည့်ထားသော အမည်များမှလွဲ၍ ပွဲစဉ်များ (Matches) နှင့် စာရင်းများ (Entries) အားလုံးကို ဖျက်ပစ်ပါမည်။ သေချာပါသလား?
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">No (မဖျက်ပါ)</button>
-        <button class="btn btn-danger" onclick="playBtnSound(); confirmRestartData()">Yes (ဖျက်မည်)</button>
+        <button class="btn btn-danger" onclick="playBtnSound(); confirmRestartData()"><i class="fa-solid fa-trash"></i> Yes (ဖျက်မည်)</button>
       </div>
     `);
   }
@@ -607,8 +660,8 @@
         <td>${m.away}</td>
         <td>${m.home} Vs ${m.away}</td>
         <td class="action-btns">
-          <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditMatchModal(${m.id})">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteMatchModal(${m.id})">Delete</button>
+          <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditMatchModal(${m.id})"><i class="fa-solid fa-pen"></i> Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteMatchModal(${m.id})"><i class="fa-solid fa-trash"></i> Delete</button>
         </td>
       </tr>
     `).join('');
@@ -619,7 +672,7 @@
     if (!m) return;
 
     showModal(`
-      <div class="modal-header">Match ပြင်ဆင်ရန်</div>
+      <div class="modal-header"><i class="fa-solid fa-pen-to-square"></i> Match ပြင်ဆင်ရန်</div>
       <div class="form-group">
         <label>အိမ်ကွင်းအသင်း</label>
         <input type="text" id="editHome" class="form-control" value="${m.home}">
@@ -652,7 +705,7 @@
 
   function openDeleteMatchModal(id) {
     showModal(`
-      <div class="modal-header">ပွဲစဉ် ဖျက်ရန် သေချာပါသလား?</div>
+      <div class="modal-header"><i class="fa-solid fa-trash" style="color: var(--danger-color);"></i> ပွဲစဉ် ဖျက်ရန် သေချာပါသလား?</div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
         <button class="btn btn-danger" onclick="playBtnSound(); confirmDeleteMatch(${id})">Delete</button>
@@ -692,8 +745,8 @@
         <td>${n.name}</td>
         <td>${n.type}</td>
         <td class="action-btns">
-          <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditNameModal(${n.id})">Edit</button>
-          <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteNameModal(${n.id})">Delete</button>
+          <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditNameModal(${n.id})"><i class="fa-solid fa-pen"></i> Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteNameModal(${n.id})"><i class="fa-solid fa-trash"></i> Delete</button>
         </td>
       </tr>
     `).join('');
@@ -704,7 +757,7 @@
     if (!n) return;
 
     showModal(`
-      <div class="modal-header">အမည် ပြင်ဆင်ရန်</div>
+      <div class="modal-header"><i class="fa-solid fa-user-pen"></i> အမည် ပြင်ဆင်ရန်</div>
       <div class="form-group">
         <label>အမည်</label>
         <input type="text" id="editNameVal" class="form-control" value="${n.name}">
@@ -740,7 +793,7 @@
 
   function openDeleteNameModal(id) {
     showModal(`
-      <div class="modal-header">အမည် ဖျက်ရန် သေချာပါသလား?</div>
+      <div class="modal-header"><i class="fa-solid fa-trash" style="color: var(--danger-color);"></i> အမည် ဖျက်ရန် သေချာပါသလား?</div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
         <button class="btn btn-danger" onclick="playBtnSound(); confirmDeleteName(${id})">Delete</button>
@@ -850,8 +903,8 @@
           <td>${betLabel}</td>
           <td class="${amtClass}">${amtDisplay}</td>
           <td class="action-btns">
-            <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditEntryModal(${e.id})">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteEntryModal(${e.id})">Delete</button>
+            <button class="btn btn-warning btn-sm" onclick="playBtnSound(); openEditEntryModal(${e.id})"><i class="fa-solid fa-pen"></i> Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="playBtnSound(); openDeleteEntryModal(${e.id})"><i class="fa-solid fa-trash"></i> Delete</button>
           </td>
         </tr>
       `;
@@ -875,7 +928,7 @@
     if (!e) return;
 
     showModal(`
-      <div class="modal-header">Entry ပြင်ဆင်ရန်</div>
+      <div class="modal-header"><i class="fa-solid fa-pen-to-square"></i> Entry ပြင်ဆင်ရန်</div>
       <div class="form-group">
         <label>Bet Amount</label>
         <input type="number" id="editEntryAmt" class="form-control" value="${Math.abs(e.amount)}">
@@ -904,7 +957,7 @@
 
   function openDeleteEntryModal(id) {
     showModal(`
-      <div class="modal-header">Entry ဖျက်ရန် သေချာပါသလား?</div>
+      <div class="modal-header"><i class="fa-solid fa-trash" style="color: var(--danger-color);"></i> Entry ဖျက်ရန် သေချာပါသလား?</div>
       <div class="modal-footer">
         <button class="btn btn-secondary" onclick="playBtnSound(); closeModal()">Cancel</button>
         <button class="btn btn-danger" onclick="playBtnSound(); confirmDeleteEntry(${id})">Delete</button>
